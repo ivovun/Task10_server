@@ -9,5 +9,4 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 
     UserProfile findById(long id);
 
-    UserProfile findByType(String type);
 }

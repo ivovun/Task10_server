@@ -1,6 +1,5 @@
 package com.websystique.springmvc.controller;
 
-import com.websystique.springmvc.exceptions.NonUniqueSsoIdException;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.UserProfileService;
@@ -13,7 +12,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -64,9 +62,6 @@ public class AppRestController {
 
     @PostMapping("/api/save")
     public ResponseEntity<Void> save(@RequestBody User user) {
-        if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
-            throw new NonUniqueSsoIdException(messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
-        }
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
