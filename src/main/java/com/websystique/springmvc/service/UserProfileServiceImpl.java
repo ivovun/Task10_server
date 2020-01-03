@@ -24,11 +24,4 @@ public class UserProfileServiceImpl implements UserProfileService{
 		return userProfileRepository.findById(id);
 	}
 
-	public UserProfile findByType(String type){
-		return userProfileRepository.findByType(type);
-	}
-
-	public List<UserProfile> findAll() {
-		return userProfileRepository.findAll();
-	}
 }

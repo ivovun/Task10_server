@@ -2,6 +2,7 @@ package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.exceptions.NonUniqueSsoIdException;
 import com.websystique.springmvc.model.User;
+import com.websystique.springmvc.model.UserProfile;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class AppRestController {
     public ResponseEntity<User> findById(@PathVariable String id) {
         return new ResponseEntity(userService.findById(Long.valueOf(id)), HttpStatus.OK);
     }
+
+    @GetMapping("/api/profiles/{id}")
+    public ResponseEntity<UserProfile> findProfileById(@PathVariable String id) {
+        return new ResponseEntity(userProfileService.findById(Long.valueOf(id)), HttpStatus.OK);
+    }
+
 
     @GetMapping("/api/users/byssoid/{ssoId}")
     public ResponseEntity<User> findBySsoId(@PathVariable String ssoId) {
