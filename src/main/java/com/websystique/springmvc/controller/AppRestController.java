@@ -30,8 +30,6 @@ public class AppRestController {
         this.messageSource = messageSource;
     }
 
-
-
     @GetMapping("/api/list")
     public ResponseEntity<List<User>> getUserList() {
         return new ResponseEntity(userService.findAll(), HttpStatus.OK);
@@ -47,7 +45,6 @@ public class AppRestController {
         return new ResponseEntity(userProfileService.findById(Long.valueOf(id)), HttpStatus.OK);
     }
 
-
     @GetMapping("/api/users/byssoid/{ssoId}")
     public ResponseEntity<User> findBySsoId(@PathVariable String ssoId) {
         return new ResponseEntity(userService.findBySsoId(ssoId), HttpStatus.OK);
@@ -57,8 +54,6 @@ public class AppRestController {
     public ResponseEntity<User> edit(@RequestParam("id") String id, ModelMap model) {
         return new ResponseEntity(userService.findById(Long.parseLong(id)), HttpStatus.OK);
     }
-
-
 
     @PostMapping("/api/save")
     public ResponseEntity<Void> save(@RequestBody User user) {
@@ -71,5 +66,4 @@ public class AppRestController {
         userService.deleteUserBySsoId(ssoId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
