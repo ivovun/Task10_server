@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,18 +26,34 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 				.withUser("my_rest_user")
 				.password(passwordEncoder().encode("my_pass"))
-				.roles("USER");
+                .roles("ADMIN");
+//                .roles("USER");
 	}
 
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.httpBasic()
-				.and()
-				.authorizeRequests()
-				.antMatchers("/api/**")
-				.authenticated();
+        http
+                //HTTP  authentication
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+                .and()
+                .csrf().disable()
+                .formLogin().disable();
+
+//		http.httpBasic()
+//				.and()
+//				.authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/api/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+//				.authenticated();
 	}
 
 	@Bean
