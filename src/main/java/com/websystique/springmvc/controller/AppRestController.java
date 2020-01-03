@@ -33,19 +33,29 @@ public class AppRestController {
 
 
 
-    @GetMapping("/admin/api/list")
+    @GetMapping("/api/list")
     public ResponseEntity<List<User>> getUserList() {
         return new ResponseEntity(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/admin/api/edit")
+    @GetMapping("/api/users/{id}")
+    public ResponseEntity<User> findById(@PathVariable String id) {
+        return new ResponseEntity(userService.findById(Long.valueOf(id)), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/users/byssoid/{ssoId}")
+    public ResponseEntity<User> findBySsoId(@PathVariable String ssoId) {
+        return new ResponseEntity(userService.findBySsoId(ssoId), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/edit")
     public ResponseEntity<User> edit(@RequestParam("id") String id, ModelMap model) {
         return new ResponseEntity(userService.findById(Long.parseLong(id)), HttpStatus.OK);
     }
 
 
 
-    @PostMapping("/admin/api/save")
+    @PostMapping("/api/save")
     public ResponseEntity<Void> save(@RequestBody User user) {
         if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
             throw new NonUniqueSsoIdException(messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
@@ -54,7 +64,7 @@ public class AppRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/api/delete/{ssoId}")
+    @DeleteMapping("/api/delete/{ssoId}")
     public ResponseEntity<Void> delete(@PathVariable String ssoId) {
         userService.deleteUserBySsoId(ssoId);
         return new ResponseEntity<>(HttpStatus.OK);

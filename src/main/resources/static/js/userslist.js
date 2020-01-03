@@ -17,7 +17,7 @@ $(document).ready(function () {
     console.log("DOCK RELOADED!!!!!"+datetime);
 
     // https://api.jquery.com/jquery.getjson/
-    $.getJSON('/admin/api/list', function (json) {
+    $.getJSON('/api/list', function (json) {
         var tr = [];
         for (var i = 0; i < json.length; i++) {
             tr.push('<tr>');
@@ -39,7 +39,7 @@ $(document).ready(function () {
         var userid = $(this).data('id');
         console.log("userid = " + userid);
 
-        $.getJSON('/admin/api/edit?id=' + userid, function (json) {
+        $.getJSON('/api/edit?id=' + userid, function (json) {
             console.log("json = " + json);
 
             console.log(JSON.stringify(json));
@@ -66,8 +66,8 @@ $(document).delegate('.delete', 'click', function() {
         var parent = $(this).parent().parent();
         $.ajax({
             type: "DELETE",
-            // url: "http://localhost:8080/admin/api/delete/" + ssoId,
-            url: "/admin/api/delete/" + ssoId,
+            // url: "http://localhost:8080/api/delete/" + ssoId,
+            url: "/api/delete/" + ssoId,
             cache: false,
             success: function() {
                 parent.fadeOut('slow', function() {
@@ -95,7 +95,7 @@ $(document).delegate('#addNew', 'click', function(event) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/admin/api/save",
+        url: "/api/save",
         data: JSON.stringify(getJsonData(false, '#ssoIdNew', '#ssoIdNew','#emailNew', '#passwordNew','#new1', '#new2', '#new3')),
         cache: false,
         success: function(result) {
@@ -142,7 +142,7 @@ $(document).delegate('.SaveAndClose', 'click', function(event) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/admin/api/save",
+        url: "/api/save",
         data: JSON.stringify(getJsonData(true, '.edit_invisibleId',
             '.edit_email_class',
             '.edit_ssoId_class',
